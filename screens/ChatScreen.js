@@ -41,8 +41,20 @@ const ChatScreen = props => {
   }, []);
 
   useEffect(() => {
-
-  }, []);
+    props.navigation.setOptions({
+      headerTitle: () => (
+      <View style={styles.header}>
+        <Avatar
+          rounded
+          source={{
+            uri: messages[messages.length - 1]?.data.photoURL // get the last item of the array since the sort = asc
+          }}
+        />
+        <Text style={styles.headerText}>{ props.route.params.chatName }</Text>
+      </View>
+    ),
+    })
+  }, [messages]);
 
   const sendMessage = () => {
     Keyboard.dismiss();
@@ -75,12 +87,12 @@ const ChatScreen = props => {
                       <Avatar
                         position='absolute'
                         bottom={-15}
-                        right={-5}
+                        left={-5}
                         // WEB
                         containerStyle={{
                           position: 'absolute',
                           bottom: -15,
-                          right: -5,
+                          left: -5,
                         }}
                         rounded
                         size={30}
@@ -95,12 +107,12 @@ const ChatScreen = props => {
                         <Avatar
                           position='absolute'
                           bottom={-15}
-                          left={-5}
+                          right={-5}
                           // WEB
                           containerStyle={{
                             position: 'absolute',
                             bottom: -15,
-                            left: -5,
+                            right: -5,
                           }}
                           rounded
                           size={30}
@@ -140,17 +152,6 @@ export const chatScreenOptions = navData => {
     title: 'Chat',
     headerBackTitleVisible: false,
     headerTitleAlign: "left",
-    headerTitle: () => (
-      <View style={styles.header}>
-        <Avatar
-          rounded
-          source={{
-            uri: "https://cencup.com/wp-content/uploads/2019/07/avatar-placeholder.png"
-          }}
-        />
-        <Text style={styles.headerText}>{ chatName }</Text>
-      </View>
-    ),
     headerLeft: () => (
       <HeaderButtons
         HeaderButtonComponent={CustomHeaderButton}
@@ -215,16 +216,6 @@ const styles = StyleSheet.create({
   receiver: {
     padding: 15,
     backgroundColor: '#ECECEC',
-    alignSelf: 'flex-end',
-    borderRadius: 20,
-    marginRight: 15,
-    marginBottom: 20,
-    maxWidth: '80%',
-    position: 'relative'
-  },
-  sender: {
-    padding: 15,
-    backgroundColor: '#2C6BED',
     alignSelf: 'flex-start',
     borderRadius: 20,
     marginLeft: 15,
@@ -232,8 +223,18 @@ const styles = StyleSheet.create({
     maxWidth: '80%',
     position: 'relative'
   },
+  sender: {
+    padding: 15,
+    backgroundColor: '#2C6BED',
+    alignSelf: 'flex-end',
+    borderRadius: 20,
+    marginRight: 15,
+    marginBottom: 20,
+    maxWidth: '80%',
+    position: 'relative'
+  },
   senderName: {
-    left: 10,
+    right: 10,
     paddingRight: 10,
     fontSize: 10,
     color: 'white'
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
   senderText: {
     color: 'white',
     fontWeight: '500',
-    marginLeft: 10,
+    marginRight: 10,
     marginBottom: 15
   },
 });
