@@ -1,21 +1,63 @@
-import { StatusBar } from 'expo-status-bar';
+import 'react-native-gesture-handler';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { StatusBar } from 'expo-status-bar';
 
-export default function App() {
+// Import screens
+import LoginScreen from './screens/LoginScreen';
+import RegisterScreen, { registerScreenOptions } from './screens/RegisterScreen';
+import HomeScreen, { homeScreenOptions } from './screens/HomeScreen';
+import AddChatScreen, { addChatScreenOptions } from './screens/AddChatScreen';
+import ChatScreen, { chatScreenOptions } from './screens/ChatScreen';
+
+const Stack = createStackNavigator();
+
+const globalScreenOptions = {
+  headerStyle: { backgroundColor: '#2C6BED' },
+  headerTitleStyle: { color: 'white' },
+  headerTintColor: 'white'
+}
+
+const LoginStack = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Stack.Navigator
+      screenOptions={globalScreenOptions}
+      initialRouteName='Login'
+    >
+      <Stack.Screen
+        name="Login"
+        component={LoginScreen}
+      />
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={registerScreenOptions}
+      />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={homeScreenOptions}
+      />
+      <Stack.Screen
+        name="AddChat"
+        component={AddChatScreen}
+        options={addChatScreenOptions}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
+        options={chatScreenOptions}
+      />
+    </Stack.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default function App() {
+  return (
+    <NavigationContainer>
+      <StatusBar style='light' />
+      <LoginStack />
+    </NavigationContainer>
+  );
+}
